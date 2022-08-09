@@ -1,5 +1,5 @@
-const marketPlaceBoilerPlate = artifacts.require("marketPlaceBoilerPlate");
+const Migrations = artifacts.require("Migrations");
 
-module.exports = function (deployer) {
-  deployer.deploy(marketPlaceBoilerPlate);
+module.exports = function(deployer) {
+  deployer.deploy(Migrations);
 };

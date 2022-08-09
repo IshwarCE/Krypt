@@ -5,12 +5,10 @@ import MoralisDappContext from "./context";
 function MoralisDappProvider({ children }) {
   const { web3, Moralis, user } = useMoralis();
   const [walletAddress, setWalletAddress] = useState();
-  const [chainId, setChainId] = useState();
-  const [contractABI, setContractABI] = useState();
+  const [chainId, setChainId] = useState();       
+  const [contractABI, setContractABI] = useState('{"noContractDeployed": true}'); //Smart Contract ABI here
+  const [marketAddress, setMarketAddress] = useState(); //Smart Contract Address Here
 
-  //Smart Contract ABI here
-  const [marketAddress, setMarketAddress] =
-    useState(0xb333b21d2cba6a46a595ce585150681986b11230); //Smart Contract Address Here
 
   useEffect(() => {
     Moralis.onChainChanged(function (chain) {
@@ -26,24 +24,12 @@ function MoralisDappProvider({ children }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setChainId(web3.givenProvider?.chainId));
   useEffect(
-    () =>
-      setWalletAddress(
-        web3.givenProvider?.selectedAddress || user?.get("ethAddress")
-      ),
+    () => setWalletAddress(web3.givenProvider?.selectedAddress || user?.get("ethAddress")),
     [web3, user]
   );
 
   return (
-    <MoralisDappContext.Provider
-      value={{
-        walletAddress,
-        chainId,
-        marketAddress,
-        setMarketAddress,
-        contractABI,
-        setContractABI,
-      }}
-    >
+    <MoralisDappContext.Provider value={{ walletAddress, chainId, marketAddress, setMarketAddress, contractABI, setContractABI }}>
       {children}
     </MoralisDappContext.Provider>
   );
